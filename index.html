@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Abroad Vision Map — Aligned Expat Roots</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a1a1a;--bg2:#2b2b2b;--matcha:#bfe07a;--coral:#f4a39a;--teal:#7dcfc4;--white:#ffffff;--soft:#faf3ec;--muted:#a89a85;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--soft);font-family:'Space Grotesk',sans-serif;min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--bg);border-bottom:1px solid #2b2b2b;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-brand{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);}
+.topbar-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.topbar-link:hover{color:var(--matcha);}
+
+/* ── APP SHELL ── */
+.wrap{max-width:720px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--matcha);margin-bottom:.5rem;}
+h1{font-family:'Fraunces',serif;font-style:italic;font-size:2.4rem;color:var(--white);margin-bottom:.4rem;line-height:1.2;}
+.subtitle{font-size:.95rem;color:var(--muted);margin-bottom:.5rem;}
+.nav{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:2rem;margin-top:1.2rem;}
+.nav-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:20px;border:1px solid #3a3a3a;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.nav-btn.active{background:var(--bg2);color:var(--matcha);border-color:var(--matcha);}
+.zone{display:none;}
+.zone.visible{display:block;}
+.zone-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#555;margin-bottom:.4rem;}
+.zone-title{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;color:var(--white);margin-bottom:.3rem;}
+.zone-prompt{font-size:.88rem;color:var(--muted);line-height:1.6;margin-bottom:1.5rem;}
+.question-block{background:var(--bg2);border-radius:14px;padding:1.2rem 1.3rem;margin-bottom:.9rem;border:1px solid #2e2e2e;transition:border-color .2s;}
+.question-block:focus-within{border-color:rgba(191,224,122,.3);}
+.question-label{font-size:.85rem;color:var(--soft);font-weight:500;margin-bottom:.6rem;line-height:1.4;}
+.question-sub{font-size:.78rem;color:var(--muted);margin-bottom:.7rem;line-height:1.4;}
+textarea{width:100%;background:var(--bg);border:1px solid #333;border-radius:8px;padding:.7rem .9rem;color:var(--soft);font-family:'Space Grotesk',sans-serif;font-size:.88rem;line-height:1.5;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;}
+textarea:focus{border-color:var(--matcha);}
+textarea::placeholder{color:#444;}
+.slider-question{margin-bottom:1rem;}
+.slider-label{font-size:.85rem;color:var(--soft);font-weight:500;margin-bottom:.4rem;}
+.slider-ends{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#555;letter-spacing:.06em;margin-bottom:.3rem;}
+input[type=range]{width:100%;accent-color:var(--matcha);}
+.slider-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--matcha);text-align:center;margin-top:.2rem;}
+.tags-input{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem;background:var(--bg);border:1px solid #333;border-radius:8px;cursor:text;min-height:44px;transition:border-color .2s;}
+.tags-input:focus-within{border-color:var(--matcha);}
+.tag-pill{background:rgba(191,224,122,.15);color:var(--matcha);border-radius:20px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;display:flex;align-items:center;gap:.3rem;cursor:pointer;}
+.tag-pill:hover{background:rgba(191,224,122,.25);}
+.tag-field{background:transparent;border:none;outline:none;color:var(--soft);font-family:'Space Grotesk',sans-serif;font-size:.85rem;min-width:80px;flex:1;}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem;}
+.summary-card{background:var(--bg2);border-radius:12px;padding:1rem 1.1rem;border:1px solid #2e2e2e;}
+.s-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem;}
+.s-content{font-size:.82rem;color:var(--soft);line-height:1.5;}
+.s-empty{font-size:.82rem;color:#444;font-style:italic;}
+.note-block{background:rgba(191,224,122,.05);border:1px solid rgba(191,224,122,.2);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1rem;font-size:.82rem;color:var(--muted);line-height:1.6;}
+.note-block strong{color:var(--matcha);font-weight:500;}
+.btn-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem;}
+@keyframes buttonGlow{0%{box-shadow:0 0 18px 4px rgba(191,224,122,.6);}33%{box-shadow:0 0 18px 4px rgba(244,163,154,.6);}66%{box-shadow:0 0 18px 4px rgba(125,207,196,.6);}100%{box-shadow:0 0 18px 4px rgba(191,224,122,.6);}}
+.btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 22px;border-radius:12px;border:1px solid var(--matcha);background:transparent;color:var(--matcha);cursor:pointer;transition:transform .2s;}
+.btn:hover{transform:scale(1.03);}
+.btn-primary{background:var(--matcha);color:var(--bg);animation:buttonGlow 3s ease-in-out infinite;}
+.btn-teal{background:var(--teal);color:var(--bg);border-color:var(--teal);animation:buttonGlow 3s ease-in-out infinite;}
+.footer-bar{background:var(--bg);border-top:1px solid #2b2b2b;padding:1.5rem 2rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9px;color:#444;letter-spacing:.1em;}
+.footer-bar a{color:var(--teal);text-decoration:none;}
+
+/* ── LIGHT PRINT VIEW ── */
+#print-view{display:none;background:#ffffff;color:#1a1a1a;font-family:'Space Grotesk',sans-serif;min-height:100vh;padding:2.5rem 2rem 3rem;max-width:800px;margin:0 auto;}
+.pv-accent-bar{height:5px;background:linear-gradient(90deg,#bfe07a,#7dcfc4,#f4a39a);border-radius:3px;margin-bottom:2rem;}
+.pv-topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.8rem;}
+.pv-brand{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#888;}
+.pv-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa;letter-spacing:.1em;}
+.pv-heading{font-family:'Fraunces',serif;font-style:italic;font-size:2.2rem;color:#1a1a1a;margin-bottom:.3rem;}
+.pv-sub{font-size:.88rem;color:#666;margin-bottom:2rem;line-height:1.5;}
+.pv-actions{display:flex;gap:.8rem;margin-bottom:2rem;align-items:center;flex-wrap:wrap;}
+.btn-print{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:11px 26px;border-radius:12px;border:none;background:#1a1a1a;color:#fff;cursor:pointer;transition:transform .2s;}
+.btn-print:hover{transform:scale(1.03);}
+.btn-back{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:11px 22px;border-radius:12px;border:1px solid #ccc;background:transparent;color:#888;cursor:pointer;transition:transform .2s;}
+.btn-back:hover{transform:scale(1.03);}
+.pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem;}
+.pv-card{background:#f7f7f7;border-radius:10px;padding:1rem 1.1rem;border:1px solid #eaeaea;break-inside:avoid;}
+.pv-card-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#999;margin-bottom:.5rem;}
+.pv-card-val{font-size:.88rem;color:#1a1a1a;line-height:1.6;}
+.pv-empty{color:#bbb;font-style:italic;font-size:.85rem;grid-column:1/-1;padding:1rem 0;}
+.pv-footer{border-top:2px solid #1a1a1a;padding-top:1rem;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#aaa;letter-spacing:.1em;}
+.pv-footer-dot{width:8px;height:8px;border-radius:50%;background:#bfe07a;display:inline-block;margin-right:6px;vertical-align:middle;}
+
+/* ── PRINT MEDIA — hides UI chrome, shows only content ── */
+@media print{
+  .topbar,.footer-bar,.pv-actions{display:none!important;}
+  body{background:#ffffff!important;}
+  #main-app{display:none!important;}
+  #print-view{display:block!important;padding:1.5rem!important;}
+  .pv-card{break-inside:avoid;-webkit-column-break-inside:avoid;}
+}
+
+@keyframes sparkleAnim{0%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0deg);}100%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(180deg) translateY(-20px);}}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <span class="topbar-brand">Aligned Expat Roots</span>
+  <a class="topbar-link" href="https://skool.com/earthway-sanctuary-3366/about" target="_blank">Join the Community ↗</a>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div id="main-app">
+<div class="wrap">
+  <div class="eyebrow">Nomad Compass Library</div>
+  <h1>Life Abroad Vision Map</h1>
+  <p class="subtitle">Get clear on what you actually want from life abroad — not what you think you should want. Your answers stay on your device.</p>
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="showZone('daily',this)">Daily Life</button>
+    <button class="nav-btn" onclick="showZone('work',this)">Work &amp; Money</button>
+    <button class="nav-btn" onclick="showZone('roots',this)">Roots &amp; People</button>
+    <button class="nav-btn" onclick="showZone('growth',this)">Growth</button>
+    <button class="nav-btn" onclick="showZone('summary',this)">My Vision</button>
+  </div>
+
+  <!-- Zone 1 -->
+  <div class="zone visible" id="z-daily">
+    <div class="zone-eyebrow">Zone 01</div><div class="zone-title">Daily Life</div>
+    <div class="zone-prompt">What does a great ordinary Tuesday actually look like? Not a holiday — just a normal day that feels like yours.</div>
+    <div class="question-block"><div class="question-label">Describe your ideal morning abroad.</div><div class="question-sub">Not aspirational, just real. What time do you wake up? What do you do first?</div><textarea placeholder="e.g. Wake up without an alarm, coffee on the balcony..." oninput="save('daily_morning',this.value)"></textarea></div>
+    <div class="question-block">
+      <div class="slider-question"><div class="slider-label">How much of your day do you want to spend outdoors?</div><div class="slider-ends"><span>Almost none</span><span>Most of the day</span></div><input type="range" min="1" max="10" value="5" oninput="save('daily_outdoors',this.value);document.getElementById('sl-outdoors').textContent=outdoorLabel(+this.value);"><div class="slider-val" id="sl-outdoors">Balanced</div></div>
+      <div class="slider-question" style="margin-top:.8rem;"><div class="slider-label">How socially active do you want your daily life to be?</div><div class="slider-ends"><span>Mostly solo</span><span>High social energy</span></div><input type="range" min="1" max="10" value="5" oninput="save('daily_social',this.value);document.getElementById('sl-social').textContent=socialLabel(+this.value);"><div class="slider-val" id="sl-social">Mix of both</div></div>
+    </div>
+    <div class="question-block"><div class="question-label">What small daily pleasures matter most to you?</div><div class="question-sub">Add tags. Press Enter or comma after each one.</div><div class="tags-input" id="tags-pleasures" onclick="document.getElementById('tag-field-pleasures').focus()"><input class="tag-field" id="tag-field-pleasures" placeholder="e.g. good coffee, evening walks..." onkeydown="addTag('pleasures',event)"></div></div>
+    <div class="question-block"><div class="question-label">What would make you feel genuinely at home somewhere?</div><div class="question-sub">Not the Instagram version. What makes a place actually feel like yours?</div><textarea placeholder="e.g. Knowing the person at the corner bakery..." oninput="save('daily_home',this.value)"></textarea></div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="showZone('work',document.querySelectorAll('.nav-btn')[1])">Work &amp; Money ↗</button></div>
+  </div>
+
+  <!-- Zone 2 -->
+  <div class="zone" id="z-work">
+    <div class="zone-eyebrow">Zone 02</div><div class="zone-title">Work &amp; Money</div>
+    <div class="zone-prompt">Financial clarity is the unsexy thing that makes freedom possible. Get honest with yourself here.</div>
+    <div class="question-block"><div class="question-label">How do you currently earn money, or how do you plan to?</div><div class="question-sub">Be specific — remote job, freelance, business, pension, passive income, still figuring it out.</div><textarea placeholder="e.g. Remote UX contractor for EU clients..." oninput="save('work_how',this.value)"></textarea></div>
+    <div class="question-block"><div class="question-label">What monthly income do you need to feel genuinely comfortable?</div><textarea placeholder="Think about rent, food, activities, travel, savings, buffer..." oninput="save('work_income',this.value)"></textarea></div>
+    <div class="question-block"><div class="slider-question"><div class="slider-label">How much do you want work to define your expat life?</div><div class="slider-ends"><span>Work to live</span><span>Work is central</span></div><input type="range" min="1" max="10" value="5" oninput="save('work_balance',this.value);document.getElementById('sl-work').textContent=workLabel(+this.value);"><div class="slider-val" id="sl-work">Balanced</div></div></div>
+    <div class="question-block"><div class="question-label">What's your biggest money fear about moving abroad?</div><div class="question-sub">Name it. Unspoken fears run the show.</div><textarea placeholder="e.g. Running out of savings in month 3..." oninput="save('work_fear',this.value)"></textarea></div>
+    <div class="btn-row"><button class="btn" onclick="showZone('daily',document.querySelectorAll('.nav-btn')[0])" style="color:var(--muted);border-color:var(--muted);">← Daily Life</button><button class="btn btn-primary" onclick="showZone('roots',document.querySelectorAll('.nav-btn')[2])">Roots &amp; People ↗</button></div>
+  </div>
+
+  <!-- Zone 3 -->
+  <div class="zone" id="z-roots">
+    <div class="zone-eyebrow">Zone 03</div><div class="zone-title">Roots &amp; People</div>
+    <div class="zone-prompt">Who you are abroad is partly about who you stay connected to — and who you build new connections with. Both matter.</div>
+    <div class="question-block"><div class="question-label">Who are the 3 people you most need to stay genuinely connected to?</div><textarea placeholder="e.g. My sister, my best friend Priya, my mum..." oninput="save('roots_people',this.value)"></textarea></div>
+    <div class="question-block"><div class="question-label">What kind of new community do you want to build abroad?</div><textarea placeholder="e.g. A small tight group of expats I can call in a crisis..." oninput="save('roots_community',this.value)"></textarea></div>
+    <div class="question-block"><div class="question-label">What parts of your culture or identity do you most want to carry with you?</div><textarea placeholder="e.g. Sunday cooking, speaking my language with my kids..." oninput="save('roots_identity',this.value)"></textarea></div>
+    <div class="btn-row"><button class="btn" onclick="showZone('work',document.querySelectorAll('.nav-btn')[1])" style="color:var(--muted);border-color:var(--muted);">← Work &amp; Money</button><button class="btn btn-primary" onclick="showZone('growth',document.querySelectorAll('.nav-btn')[3])">Growth ↗</button></div>
+  </div>
+
+  <!-- Zone 4 -->
+  <div class="zone" id="z-growth">
+    <div class="zone-eyebrow">Zone 04</div><div class="zone-title">Growth</div>
+    <div class="zone-prompt">Moving abroad is one of the fastest personal development experiences available to any human. What do you want to grow into?</div>
+    <div class="question-block"><div class="question-label">What kind of person do you want to be on the other side of this move?</div><textarea placeholder="e.g. More independent. Fluent in Portuguese. Less anxious about the unknown..." oninput="save('growth_person',this.value)"></textarea></div>
+    <div class="question-block"><div class="question-label">What are you leaving behind — intentionally?</div><textarea placeholder="e.g. The version of me that played it safe..." oninput="save('growth_leave',this.value)"></textarea></div>
+    <div class="question-block"><div class="question-label">What would make this move feel like a success — one year from now?</div><textarea placeholder="e.g. A solid local friend group. A sustainable freelance income..." oninput="save('growth_success',this.value)"></textarea></div>
+    <div class="btn-row"><button class="btn" onclick="showZone('roots',document.querySelectorAll('.nav-btn')[2])" style="color:var(--muted);border-color:var(--muted);">← Roots &amp; People</button><button class="btn btn-primary" onclick="buildSummary();showZone('summary',document.querySelectorAll('.nav-btn')[4])">See my vision ↗</button></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="zone" id="z-summary">
+    <div class="zone-eyebrow">Your Vision</div><div class="zone-title">Life Abroad Vision Map</div>
+    <div class="zone-prompt">A snapshot of everything you've named. Come back to this when things get hard.</div>
+    <div class="note-block"><strong>This is yours.</strong> Come back to this when you're three weeks in and wondering why you came. This is the version of your life you were reaching for.</div>
+    <div class="summary-grid" id="summary-grid"></div>
+    <div class="btn-row">
+      <button class="btn" onclick="showZone('daily',document.querySelectorAll('.nav-btn')[0])" style="color:var(--muted);border-color:var(--muted);">← Edit answers</button>
+      <button class="btn btn-teal" onclick="downloadPDF()">Save as PDF ↓</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="footer-bar" id="footerbar">
+  Aligned Expat Roots &nbsp;·&nbsp; Nomad Compass Library &nbsp;·&nbsp; <a href="https://skool.com/earthway-sanctuary-3366/about" target="_blank">Join the Community ↗</a>
+</div>
+
+<style>@keyframes sparkleAnim{0%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0deg);}100%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(180deg) translateY(-20px);}}</style>
+<script>
+const state={};
+function save(k,v){state[k]=v;}
+function get(k){return state[k]||'';}
+const tagState={pleasures:[]};
+
+function addTag(name,e){
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const f=document.getElementById('tag-field-'+name);
+    const v=f.value.replace(',','').trim();
+    if(v&&!tagState[name].includes(v)){tagState[name].push(v);renderTags(name);}
+    f.value='';
+  }
+}
+function renderTags(name){
+  const c=document.getElementById('tags-'+name);
+  c.querySelectorAll('.tag-pill').forEach(p=>p.remove());
+  tagState[name].forEach(t=>{
+    const p=document.createElement('div');p.className='tag-pill';
+    p.innerHTML=`${t} <span onclick="removeTag('${name}','${t}')">×</span>`;
+    c.insertBefore(p,document.getElementById('tag-field-'+name));
+  });
+}
+function removeTag(name,val){tagState[name]=tagState[name].filter(t=>t!==val);renderTags(name);}
+function outdoorLabel(v){if(v<=2)return'Mostly indoors';if(v<=4)return'Some outdoor time';if(v<=6)return'Balanced';if(v<=8)return'Mostly outdoors';return'Living outside';}
+function socialLabel(v){if(v<=2)return'Deeply solo';if(v<=4)return'Mostly solo';if(v<=6)return'Mix of both';if(v<=8)return'Quite social';return'High energy social';}
+function workLabel(v){if(v<=2)return'Work is a means';if(v<=4)return'Work to live';if(v<=6)return'Balanced';if(v<=8)return'Work matters a lot';return'Work is central';}
+function showZone(name,btn){
+  document.querySelectorAll('.zone').forEach(z=>z.classList.remove('visible'));
+  document.getElementById('z-'+name).classList.add('visible');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
+
+const FIELDS=[
+  {label:'Morning ritual',key:'daily_morning',type:'text'},
+  {label:'Daily pleasures',key:'pleasures',type:'tags'},
+  {label:'Time outdoors',key:'daily_outdoors',type:'slider',fn:outdoorLabel},
+  {label:'Social energy level',key:'daily_social',type:'slider',fn:socialLabel},
+  {label:'What makes a place feel like home',key:'daily_home',type:'text'},
+  {label:'How you earn',key:'work_how',type:'text'},
+  {label:'Income goal',key:'work_income',type:'text'},
+  {label:'Work vs life balance',key:'work_balance',type:'slider',fn:workLabel},
+  {label:'Money fear to face',key:'work_fear',type:'text'},
+  {label:'People to stay close to',key:'roots_people',type:'text'},
+  {label:'Community you want to build',key:'roots_community',type:'text'},
+  {label:'What you carry with you',key:'roots_identity',type:'text'},
+  {label:'Who you want to become',key:'growth_person',type:'text'},
+  {label:'What you are leaving behind',key:'growth_leave',type:'text'},
+  {label:'What success looks like in 1 year',key:'growth_success',type:'text'},
+];
+function getFieldVal(f){
+  if(f.type==='tags') return tagState[f.key].join(', ');
+  if(f.type==='slider'){const r=get(f.key);if(!r)return'';return f.fn(+r)+' ('+r+'/10)';}
+  return get(f.key);
+}
+function buildSummary(){
+  const g=document.getElementById('summary-grid');g.innerHTML='';
+  FIELDS.forEach(f=>{
+    const v=getFieldVal(f);
+    const c=document.createElement('div');c.className='summary-card';
+    c.innerHTML=`<div class="s-label">${f.label}</div>${v?`<div class="s-content">${v}</div>`:'<div class="s-empty">Not filled in yet</div>'}`;
+    g.appendChild(c);
+  });
+}
+function downloadPDF(){
+  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  let cards='';
+  FIELDS.forEach(f=>{
+    const v=getFieldVal(f);if(!v)return;
+    cards+=`<div class="card"><div class="card-label">${f.label}</div><div class="card-val">${v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div></div>`;
+  });
+  if(!cards) cards='<p style="color:#aaa;font-style:italic;grid-column:1/-1;">No answers filled in yet.</p>';
+
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>My Life Abroad Vision Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#fff;color:#1a1a1a;font-family:'Space Grotesk',sans-serif;padding:40px;}
+.accent{height:5px;background:linear-gradient(90deg,#bfe07a,#7dcfc4,#f4a39a);border-radius:3px;margin-bottom:32px;}
+.toprow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;}
+.brand{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#888;}
+.date{font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa;letter-spacing:.1em;}
+h1{font-family:'Fraunces',serif;font-style:italic;font-size:36px;color:#1a1a1a;margin-bottom:6px;}
+.sub{font-size:14px;color:#666;margin-bottom:32px;line-height:1.5;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:40px;}
+.card{background:#f7f7f7;border-radius:10px;padding:14px 16px;border:1px solid #eaeaea;break-inside:avoid;}
+.card-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#999;margin-bottom:6px;}
+.card-val{font-size:13px;color:#1a1a1a;line-height:1.6;}
+.footer{border-top:2px solid #1a1a1a;padding-top:12px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#aaa;letter-spacing:.1em;}
+.dot{width:8px;height:8px;border-radius:50%;background:#bfe07a;display:inline-block;margin-right:6px;vertical-align:middle;}
+@media print{body{padding:20px;}@page{margin:15mm;}}
+</style></head><body>
+<div class="accent"></div>
+<div class="toprow"><div class="brand"><span class="dot"></span>Aligned Expat Roots — Nomad Compass Library</div><div class="date">${today}</div></div>
+<h1>My Life Abroad Vision Map</h1>
+<div class="sub">A personal compass for life abroad. Return to this whenever you need to remember why you came.</div>
+<div class="grid">${cards}</div>
+<div class="footer"><span><span class="dot"></span>Aligned Expat Roots</span><span>skool.com/earthway-sanctuary-3366/about</span></div>
+</body></html>`;
+
+  const pw=window.open('','_blank','width=900,height=700');
+  if(pw){
+    pw.document.write(html);
+    pw.document.close();
+    pw.focus();
+    setTimeout(()=>pw.print(),800);
+  } else {
+    // Sandbox fallback: replace current page with print view, trigger print
+    document.open();
+    document.write(html);
+    document.close();
+    setTimeout(()=>window.print(),800);
+  }
+}
+const SC=['#bfe07a','#f4a39a','#7dcfc4','#ffffff'];
+function spark(x,y){const s=document.createElement('div');const c=SC[Math.floor(Math.random()*SC.length)];const sz=Math.random()*8+4;s.style.cssText=`position:fixed;left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%) rotate(45deg);background:${c};clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:sparkleAnim 0.7s ease-out forwards;`;document.body.appendChild(s);setTimeout(()=>s.remove(),700);}
+let ls=0;document.addEventListener('mousemove',e=>{const n=Date.now();if(n-ls>40){spark(e.clientX,e.clientY);ls=n;}});
+</script>
+</body>
+</html>
